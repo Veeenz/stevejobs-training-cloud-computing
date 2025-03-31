@@ -1,0 +1,38 @@
+# Creare un'immagine (Assicurandosi di essere dove c'è il Dockerfile)
+docker build -t my-image .
+
+# Avviare immagine a partire da un container
+docker run my-image
+
+# Avviare immagine con un nome (che non è una delle sue oscenità)
+docker run --name=sad_prof_filetti my-image
+
+# Listare i container in esecuzione
+docker ps 
+docker container ls 
+# Aggiungere -a per vederli tutti
+
+# Listare tutte le immagini
+docker image ls
+
+# Eseguire un comando dentro un container
+docker exec -it nome-container /bin/sh 
+
+# Interrompere un container
+docker stop nome-container
+
+# Creare un volume
+docker volume create nome-volume
+
+# Ispezionare un volume 
+docker inspect nome-volume
+
+# Eseguire con un nome e mappare una porta
+docker run --name=cool_container -p 9000:3000 nome-immagine
+# -p host:container host --> container 
+# ovvero se proviamo a contattare dal browser dobbiamo mettere
+# la porta che abbiamo definito in host
+
+# Comando completo
+docker run --name=cool_container -d --rm -p 9000:3000 -v $(pwd)/app:/app nome-immagine
+
