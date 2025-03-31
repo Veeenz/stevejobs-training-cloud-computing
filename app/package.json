@@ -1,0 +1,13 @@
+{
+    "name": "docker-example-001",
+    "version": "1.0.0",
+    "description": "Docker example 001",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2",
+      "mysql2": "^3.6.1"
+    }
+  }
