@@ -1,0 +1,126 @@
+<%- include('header') %>
+
+<% if (success) { %>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2><i class="bi bi-database-check me-2"></i>Connessione al Database Riuscita</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-success">
+                <i class="bi bi-check-circle-fill me-2"></i> Connesso con successo al database MySQL
+            </div>
+            
+            <div class="mt-4">
+                <h3><i class="bi bi-table me-2"></i>Registro Accessi</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>ID</th>
+                                <th>Timestamp</th>
+                                <th>Informazioni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (rows && rows.length > 0) { %>
+                                <% rows.forEach(row => { %>
+                                    <tr>
+                                        <td><%= row.id %></td>
+                                        <td><%= new Date(row.timestamp).toLocaleString('it-IT') %></td>
+                                        <td><%= row.info %></td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="3" class="text-center">Nessun dato disponibile</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="bi bi-info-circle me-2"></i>Informazioni sul Database</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Host
+                            <span class="badge bg-primary rounded-pill">MySQL</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tabella
+                            <span class="badge bg-primary rounded-pill">accessi</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Totale Record
+                            <span class="badge bg-primary rounded-pill"><%= rows ? rows.length : 0 %></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="bi bi-clock-history me-2"></i>Statistiche</h4>
+                </div>
+                <div class="card-body">
+                    <% if (rows && rows.length > 0) { %>
+                        <div class="mb-3">
+                            <p>Primo accesso: <%= new Date(rows[rows.length-1].timestamp).toLocaleString('it-IT') %></p>
+                            <p>Ultimo accesso: <%= new Date(rows[0].timestamp).toLocaleString('it-IT') %></p>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 100%">
+                                <%= rows.length %> accessi registrati
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <p class="text-center">Nessuna statistica disponibile</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } else { %>
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h2><i class="bi bi-exclamation-triangle-fill me-2"></i>Errore di Connessione al Database</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-danger">
+                <i class="bi bi-x-octagon-fill me-2"></i> Impossibile connettersi al database MySQL
+            </div>
+            
+            <div class="mt-4">
+                <h4>Dettagli Errore:</h4>
+                <pre class="bg-light p-3 rounded"><%= error %></pre>
+            </div>
+            
+            <div class="mt-4">
+                <h4>Possibili soluzioni:</h4>
+                <ul>
+                    <li>Verificare che il container MySQL sia in esecuzione</li>
+                    <li>Controllare i parametri di connessione al database</li>
+                    <li>Assicurarsi che il database 'workshop' sia stato creato</li>
+                    <li>Verificare che l'host sia accessibile dalla rete Docker</li>
+                </ul>
+            </div>
+            
+            <div class="mt-4 text-center">
+                <a href="/db" class="btn btn-primary btn-lg">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Riprova
+                </a>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<%- include('footer') %> 

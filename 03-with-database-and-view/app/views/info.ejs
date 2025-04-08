@@ -1,0 +1,95 @@
+<%- include('header') %>
+
+<div class="card">
+    <div class="card-header">
+        <h2><i class="bi bi-gear me-2"></i>Informazioni API</h2>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle-fill me-2"></i> Questa pagina mostra i dati dall'endpoint JSON /info
+        </div>
+        
+        <div class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4><i class="bi bi-braces me-2"></i>Dati JSON</h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="json-display" class="bg-light p-3 rounded">Caricamento...</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4><i class="bi bi-list-ul me-2"></i>Informazioni Formattate</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group" id="info-list">
+                                <li class="list-group-item text-center">Caricamento...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <button id="refresh-btn" class="btn btn-primary">
+                <i class="bi bi-arrow-clockwise me-2"></i>Aggiorna Dati
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Funzione per caricare i dati JSON dall'endpoint /info
+    async function fetchInfoData() {
+        try {
+            const response = await fetch('/info');
+            const data = await response.json();
+            
+            // Aggiorna il display JSON
+            document.getElementById('json-display').textContent = JSON.stringify(data, null, 2);
+            
+            // Aggiorna la lista di informazioni
+            const infoList = document.getElementById('info-list');
+            infoList.innerHTML = '';
+            
+            for (const key in data) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                
+                let value = data[key];
+                if (key === 'time') {
+                    value = new Date(value).toLocaleString('it-IT');
+                }
+                
+                li.innerHTML = `
+                    ${key}
+                    <span class="badge bg-primary rounded-pill">${value}</span>
+                `;
+                
+                infoList.appendChild(li);
+            }
+        } catch (error) {
+            document.getElementById('json-display').textContent = `Errore: ${error.message}`;
+            document.getElementById('info-list').innerHTML = `
+                <li class="list-group-item text-danger">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Errore durante il caricamento dei dati
+                </li>
+            `;
+        }
+    }
+    
+    // Carica i dati all'avvio
+    fetchInfoData();
+    
+    // Aggiungi event listener per il pulsante di aggiornamento
+    document.getElementById('refresh-btn').addEventListener('click', fetchInfoData);
+</script>
+
+<%- include('footer') %> 

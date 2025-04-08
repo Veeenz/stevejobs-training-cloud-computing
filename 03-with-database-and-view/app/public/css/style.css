@@ -1,0 +1,136 @@
+/* Stile personalizzato per Docker Workshop */
+
+/* Effetti di hover e transizione per le card */
+.card {
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Stile per le intestazioni delle card */
+.card-header {
+    background: linear-gradient(45deg, #0099ff, #0066cc);
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+/* Stile per i bottoni */
+.btn-primary {
+    background: linear-gradient(45deg, #0099ff, #0066cc);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0066cc, #0052a3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Stile per la navbar */
+.navbar {
+    background: linear-gradient(to right, #0066cc, #0099ff);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Stili aggiuntivi per tabelle */
+.table {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #0099ff;
+    color: white;
+    border: none;
+}
+
+/* Personalizzazione del footer */
+footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Animazioni per gli elementi della pagina */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card, .alert, .table {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Animazione per la rotazione dell'icona di refresh */
+.bi-arrow-clockwise {
+    transition: transform 0.3s ease;
+}
+
+.btn:hover .bi-arrow-clockwise {
+    transform: rotate(180deg);
+}
+
+/* Stile per pre tag (visualizzazione JSON) */
+pre {
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Stile per le badge */
+.badge {
+    padding: 8px 12px;
+    border-radius: 30px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Icone personalizzate */
+.bi {
+    margin-right: 5px;
+}
+
+/* Per il pulsante di refresh */
+#refresh-btn {
+    transition: all 0.3s ease;
+}
+
+#refresh-btn:hover {
+    transform: translateY(-2px) rotate(5deg);
+}
+
+/* Stile per il loader */
+.loader {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #0099ff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+} 

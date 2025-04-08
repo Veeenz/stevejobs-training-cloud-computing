@@ -1,0 +1,27 @@
+{
+  "name": "docker-lesson",
+  "version": "1.0.0",
+  "description": "Applicazione di esempio per la lezione Docker",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "docker",
+    "nodejs",
+    "mysql",
+    "workshop"
+  ],
+  "author": "Docker Lovers",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
