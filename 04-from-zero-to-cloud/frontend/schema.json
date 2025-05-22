@@ -1,0 +1,219 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Expense Splitter Lite API",
+      "version": "1.0.0",
+      "description": "API documentation for Expense Splitter Lite backend."
+    },
+    "servers": [
+      { "url": "https://<your-render-url>" }
+    ],
+    "paths": {
+      "/expenses": {
+        "get": {
+          "summary": "List expenses (with optional filters)",
+          "parameters": [
+            { "name": "tag", "in": "query", "schema": { "type": "string" } },
+            { "name": "from", "in": "query", "schema": { "type": "string", "format": "date" } },
+            { "name": "to", "in": "query", "schema": { "type": "string", "format": "date" } },
+            { "name": "type", "in": "query", "schema": { "type": "string", "enum": ["expense", "income"] } }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of expenses",
+              "content": {
+                "application/json": {
+                  "example": [
+                    {
+                      "_id": "...",
+                      "description": "Pizza dinner",
+                      "amount": 30,
+                      "tags": ["food", "friends"],
+                      "date": "2024-06-01T20:00:00.000Z",
+                      "type": "expense",
+                      "paidBy": "Alice",
+                      "splitTo": ["Alice", "Bob", "Charlie"]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new expense or income",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "example": {
+                  "description": "Pizza dinner",
+                  "amount": 30,
+                  "tags": ["food", "friends"],
+                  "date": "2024-06-01T20:00:00.000Z",
+                  "type": "expense",
+                  "paidBy": "Alice",
+                  "splitTo": ["Alice", "Bob", "Charlie"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Expense created",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "_id": "...",
+                    "description": "Pizza dinner",
+                    "amount": 30,
+                    "tags": ["food", "friends"],
+                    "date": "2024-06-01T20:00:00.000Z",
+                    "type": "expense",
+                    "paidBy": "Alice",
+                    "splitTo": ["Alice", "Bob", "Charlie"]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "errors": [
+                      { "msg": "Amount must be a float", "param": "amount", "location": "body" }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/expenses/{id}": {
+        "get": {
+          "summary": "Get expense by ID",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          ],
+          "responses": {
+            "200": {
+              "description": "Expense object",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "_id": "...",
+                    "description": "Pizza dinner",
+                    "amount": 30,
+                    "tags": ["food", "friends"],
+                    "date": "2024-06-01T20:00:00.000Z",
+                    "type": "expense",
+                    "paidBy": "Alice",
+                    "splitTo": ["Alice", "Bob", "Charlie"]
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update expense by ID",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "example": {
+                  "description": "Updated description",
+                  "amount": 40
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated expense object"
+            },
+            "404": {
+              "description": "Not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete expense by ID",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "example": { "success": true }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found"
+            }
+          }
+        }
+      },
+      "/summary/month": {
+        "get": {
+          "summary": "Get monthly summary (grouped by type)",
+          "parameters": [
+            { "name": "year", "in": "query", "required": true, "schema": { "type": "integer" } },
+            { "name": "month", "in": "query", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": {
+            "200": {
+              "description": "Monthly summary",
+              "content": {
+                "application/json": {
+                  "example": [
+                    { "_id": "expense", "total": 120 },
+                    { "_id": "income", "total": 200 }
+                  ]
+                }
+              }
+            },
+            "400": {
+              "description": "Missing year or month"
+            }
+          }
+        }
+      },
+      "/summary/split": {
+        "get": {
+          "summary": "Get split summary for people",
+          "parameters": [
+            { "name": "people", "in": "query", "required": true, "schema": { "type": "string" }, "description": "Comma-separated list of people" }
+          ],
+          "responses": {
+            "200": {
+              "description": "Split balances",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "Alice": 10,
+                    "Bob": -5,
+                    "Charlie": -5
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing people parameter"
+            }
+          }
+        }
+      }
+    }
+  } 

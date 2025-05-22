@@ -1,0 +1,6 @@
+Per generare lo zip per andare su Netlify:
+
+docker build -f zip.Dockerfile -t react-zipper .
+docker run --rm -v $(pwd)/output:/output react-zipper
+
+

@@ -1,0 +1,5 @@
+Build dell'immagine per andare sul docker hub
+> docker login
+> docker build --platform linux/amd64 -t expense-splitter .
+> docker run -p 8080:3000 --env-file .env expense-splitter
+
